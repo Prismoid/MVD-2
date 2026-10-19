@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Minimum Viable Dataspace Console - Public Key Registry</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/common.js"></script>
+</head>
+<body>
+<script>nav('pkr')</script>
+<main>
+  <div class="two-col operation-result">
+    <div class="operation-stack">
+      <div class="card">
+        <h2>Generate Local Key</h2>
+        <p class="muted">PoC用です。秘密鍵は mvd-console-db の PostgreSQL に平文保存しています。本番用途では暗号化やKMS利用が必要です。</p>
+        <label>User ID</label>
+        <input id="new-user-id" placeholder="userA">
+        <button onclick="createLocalKey()">Generate Local Key</button>
+      </div>
+
+      <div class="card">
+        <h2>Public Key Registry Operation</h2>
+        <p class="muted">ローカル鍵ユーザを選択し、Connector 経由で Public Key Registry を操作します。</p>
+        <label>Local User</label>
+        <select id="pkr-user"></select>
+        <div class="row">
+          <button onclick="registerPkr()">Register</button>
+          <button class="ghost" onclick="updatePkr()">Update Private Key</button>
+          <button class="danger" onclick="deletePkr()">Delete User</button>
+        </div>
+        <p class="muted">Delete User は Federated Catalog → AuthZ → Public Key Registry → Local Key の順に削除します。</p>
+      </div>
+    </div>
+
+    <div class="card result-card">
+      <h2>Result</h2>
+      <div id="result" class="result">No result.</div>
+    </div>
+  </div>
+
+  <div class="two-col local-key-table-layout">
+    <div class="card">
+      <div class="section-title">
+        <h2>Local Keys</h2>
+        <button class="danger small" onclick="deleteAllLocalKeys()">Debug: Delete All Local Keys</button>
+      </div>
+      <p class="muted table-card-help">この Console の DB に保存されている Local Keys だけを表示します。PoC用のため、秘密鍵も確認できるようにしています。</p>
+      <div class="table-tools">
+        <input id="local-key-search" placeholder="Search Local Keys">
+      </div>
+      <table class="local-keys-table">
+        <thead><tr><th>User ID</th><th>Private Key</th><th>Registered At</th></tr></thead>
+        <tbody id="local-key-body"></tbody>
+      </table>
+      <div id="local-key-pager" class="pager"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">
+        <h2>Public Key Registry DB</h2>
+      </div>
+      <p class="muted table-card-help">この Console の Local Keys と User ID / Public Key が一致する公開鍵だけを表示します。</p>
+      <div class="table-tools">
+        <input id="pkr-search" placeholder="Search Local PKR Entries">
+      </div>
+      <table>
+        <thead><tr><th>User ID</th><th>Public Key</th><th>Registered At</th></tr></thead>
+        <tbody id="pkr-body"></tbody>
+      </table>
+      <div id="pkr-pager" class="pager"></div>
+    </div>
+  </div>
+</main>
+<script src="/static/pkr.js"></script>
+</body>
+</html>

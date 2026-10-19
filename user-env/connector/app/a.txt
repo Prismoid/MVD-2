@@ -1,0 +1,622 @@
+PKR delete_all -> 200
+{
+  "deleted": 1
+}
+------------------------------------------------------------
+FC delete_all -> 200
+{
+  "deleted": 1
+}
+------------------------------------------------------------
+AuthZ delete_all -> 200
+{
+  "status": "ok",
+  "deleted": 1
+}
+------------------------------------------------------------
+PKR add userA -> 200
+{
+  "status": "ok",
+  "user_id": "user"
+}
+------------------------------------------------------------
+FC add resource-001 -> 200
+{
+  "status": "ok",
+  "resource_id": "resource-001"
+}
+------------------------------------------------------------
+AuthZ add (grant userB) -> 200
+{
+  "status": "ok"
+}
+------------------------------------------------------------
+AuthZ get -> 200
+{
+  "resource_id": "resource-001",
+  "access_grantee_id": "user",
+  "valid_from": "2026-10-13T05:30:19.679248",
+  "expired_at": "2026-10-13T07:40:19.679281",
+  "created_at": "2026-10-13T06:35:19.699271"
+}
+------------------------------------------------------------
+Gateway mTLS with certificate -> 200
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/fc/add": {
+      "post": {
+        "summary": "Fc Add",
+        "operationId": "fc_add_fc_add_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fc/upd": {
+      "post": {
+        "summary": "Fc Upd",
+        "operationId": "fc_upd_fc_upd_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fc/del": {
+      "post": {
+        "summary": "Fc Del",
+        "operationId": "fc_del_fc_del_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fc/get": {
+      "get": {
+        "summary": "Fc Get",
+        "operationId": "fc_get_fc_get_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fc/debug/showAll": {
+      "get": {
+        "summary": "Fc Debug Show All",
+        "operationId": "fc_debug_show_all_fc_debug_showAll_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fc/debug/delAll": {
+      "delete": {
+        "summary": "Fc Debug Delete All",
+        "operationId": "fc_debug_delete_all_fc_debug_delAll_delete",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pkr/add": {
+      "post": {
+        "summary": "Pkr Add",
+        "operationId": "pkr_add_pkr_add_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pkr/upd": {
+      "post": {
+        "summary": "Pkr Upd",
+        "operationId": "pkr_upd_pkr_upd_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pkr/del": {
+      "post": {
+        "summary": "Pkr Del",
+        "operationId": "pkr_del_pkr_del_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pkr/get/{user_id}": {
+      "get": {
+        "summary": "Pkr Get",
+        "operationId": "pkr_get_pkr_get__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pkr/debug/showAllKeys": {
+      "get": {
+        "summary": "Pkr Debug Show All",
+        "operationId": "pkr_debug_show_all_pkr_debug_showAllKeys_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pkr/debug/delAllKeys": {
+      "delete": {
+        "summary": "Pkr Debug Delete All",
+        "operationId": "pkr_debug_delete_all_pkr_debug_delAllKeys_delete",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authz/add": {
+      "post": {
+        "summary": "Authz Add",
+        "operationId": "authz_add_authz_add_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authz/upd": {
+      "post": {
+        "summary": "Authz Upd",
+        "operationId": "authz_upd_authz_upd_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authz/del": {
+      "post": {
+        "summary": "Authz Del",
+        "operationId": "authz_del_authz_del_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authz/get": {
+      "get": {
+        "summary": "Authz Get",
+        "operationId": "authz_get_authz_get_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authz/debug/show_all": {
+      "get": {
+        "summary": "Authz Debug Show All",
+        "operationId": "authz_debug_show_all_authz_debug_show_all_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authz/debug/delete_all": {
+      "delete": {
+        "summary": "Authz Debug Delete All",
+        "operationId": "authz_debug_delete_all_authz_debug_delete_all_delete",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invoke_resource": {
+      "get": {
+        "summary": "Invoke Resource",
+        "operationId": "invoke_resource_invoke_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Invoke Resource",
+        "operationId": "invoke_resource_invoke_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Invoke Resource",
+        "operationId": "invoke_resource_invoke_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Invoke Resource",
+        "operationId": "invoke_resource_invoke_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "summary": "Invoke Resource",
+        "operationId": "invoke_resource_invoke_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "head": {
+        "summary": "Invoke Resource",
+        "operationId": "invoke_resource_invoke_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Invoke Resource",
+        "operationId": "invoke_resource_invoke_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/relay_resource": {
+      "get": {
+        "summary": "Relay Resource",
+        "operationId": "relay_resource_relay_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Relay Resource",
+        "operationId": "relay_resource_relay_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Relay Resource",
+        "operationId": "relay_resource_relay_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Relay Resource",
+        "operationId": "relay_resource_relay_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "summary": "Relay Resource",
+        "operationId": "relay_resource_relay_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "head": {
+        "summary": "Relay Resource",
+        "operationId": "relay_resource_relay_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Relay Resource",
+        "operationId": "relay_resource_relay_resource_head",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
+------------------------------------------------------------
+Gateway without client certificate -> rejected (OK)
+invoke_resource -> 500
+Internal Server Error

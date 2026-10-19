@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>MVD Browser</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>MVD Browser</h1>
+    <p>Federated Catalog and Public Key Registry viewer</p>
+  </header>
+
+  <main>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('fc')">Federated Catalog</button>
+      <button class="tab" onclick="switchTab('pkr')">Public Key Registry</button>
+    </div>
+
+    <section id="fc-panel" class="panel active">
+      <div class="toolbar">
+        <input id="fc-resource-id" placeholder="resource_id" />
+        <input id="fc-user-id" placeholder="user_id" />
+        <input id="fc-keyword" placeholder="keyword" />
+        <button onclick="loadFederatedCatalog()">Search</button>
+      </div>
+
+      <div class="summary-row">
+        <div id="fc-summary" class="summary"></div>
+        <div class="debug-actions">
+          <button class="danger" onclick="deleteAllFederatedCatalog()">Debug: Delete All Catalog Entries</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Resource ID</th>
+              <th>User ID</th>
+              <th>Description</th>
+              <th>Endpoint</th>
+              <th>Resource Path</th>
+              <th>Registered At</th>
+            </tr>
+          </thead>
+          <tbody id="fc-body"></tbody>
+        </table>
+        <div id="fc-pager" class="pager"></div>
+      </div>
+    </section>
+
+    <section id="pkr-panel" class="panel">
+      <div class="toolbar">
+        <input id="pkr-user-id" placeholder="user_id e.g. userA" />
+        <button onclick="loadPublicKey()">Search</button>
+        <button onclick="loadAllPublicKeys()">Show All</button>
+      </div>
+
+      <div class="summary-row">
+        <div id="pkr-summary" class="summary"></div>
+        <div class="debug-actions">
+          <button class="danger" onclick="deleteAllPublicKeys()">Debug: Delete All Public Keys</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Public Key</th>
+              <th>Registered At</th>
+            </tr>
+          </thead>
+          <tbody id="pkr-body"></tbody>
+        </table>
+        <div id="pkr-pager" class="pager"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Minimum Viable Dataspace Console - Federated Catalog</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/common.js"></script>
+</head>
+<body>
+<script>nav('fc')</script>
+<main>
+  <div class="two-col operation-result">
+    <div class="card">
+      <h2>Federated Catalog Operation</h2>
+      <label>Current User</label><select id="fc-user"></select>
+      <p class="muted">Add では選択ユーザを Owner として登録します。Update では既存 Owner を維持し、Description / Endpoint / Resource Path のみ更新します。</p>
+      <label>Resource ID</label><input id="resource-id" placeholder="resource-001">
+      <label>Description</label><input id="description" placeholder="sample resource">
+      <label>Endpoint</label><input id="endpoint" placeholder="http://localhost:7550">
+      <label>Resource Path</label><input id="resource-path" placeholder="http://localhost:7552/hello_world.txt">
+      <div class="row">
+        <button onclick="addFc()">Add</button>
+        <button class="ghost" onclick="updateFc()">Update</button>
+        <button class="danger" onclick="deleteFc()">Delete</button>
+      </div>
+    </div>
+
+    <div class="card result-card">
+      <h2>Result</h2>
+      <div id="result" class="result">No result.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">
+      <h2>Federated Catalog</h2>
+    </div>
+    <div class="table-tools">
+      <input id="fc-search" placeholder="Search Federated Catalog">
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Resource ID</th>
+          <th>User</th>
+          <th>Description</th>
+          <th>Endpoint</th>
+          <th>Resource Path</th>
+        </tr>
+      </thead>
+      <tbody id="fc-body"></tbody>
+    </table>
+    <div id="fc-pager" class="pager"></div>
+  </div>
+</main>
+<script src="/static/fc.js"></script>
+</body>
+</html>

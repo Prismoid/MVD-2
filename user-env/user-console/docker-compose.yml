@@ -1,0 +1,26 @@
+services:
+  mvd-console-db:
+    image: postgres:16
+    container_name: mvd-console-db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mvd_console
+    volumes:
+      - mvd-console-db-data:/var/lib/postgresql/data
+
+  mvd-console:
+    build: .
+    container_name: mvd-console
+    ports:
+      - "7651:7651"
+    environment:
+      DATABASE_URL: postgresql://user:password@mvd-console-db:5432/mvd_console
+      CONNECTOR_URL: http://host.docker.internal:7550
+    depends_on:
+      - mvd-console-db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  mvd-console-db-data:

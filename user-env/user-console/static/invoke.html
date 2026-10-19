@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Minimum Viable Dataspace Console - Invoke</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/common.js"></script>
+</head>
+<body>
+<script>nav('invoke')</script>
+<main>
+  <div class="two-col operation-result invoke-operation-result">
+    <div class="card">
+      <h2>Invoke Resource</h2>
+      <p class="muted">選択したユーザの秘密鍵で署名し、Connector の /invoke_resource を呼び出します。</p>
+      <label>User</label><select id="user-id"></select>
+      <label>Resource ID</label><input id="resource-id" placeholder="resource-001">
+      <label>Method</label><select id="method"><option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option></select>
+      <label>Query Parameters</label><input id="query-params" placeholder="room_id=roomA&light_id=a302-1">
+      <p class="muted">リソース呼び出し時に付与するクエリパラメータを指定します。"room_id=roomA" または "?room_id=roomA" のどちらの形式でも入力できます。複数指定する場合は "room_id=roomA&light_id=a302-1" のように "&" で連結してください。入力値は /invoke_resource のクエリ文字列として Provider 側 Connector に中継されます。</p>
+
+      <label>HTTP Headers</label>
+      <textarea id="extraHeaders" class="headers-textarea" placeholder="X-Api-Key: demo-api-key&#10;Accept: application/json&#10;Content-Type: application/json"></textarea>
+      <p class="muted">任意のHTTPヘッダーを1行1件で指定できます。形式は "Header-Name: value" です。署名用の X-Resource-Id / X-User-Id / X-Expire-Time / X-Signature と Authorization は専用欄で扱うため、ここでは指定しません。</p>
+
+      <label>Authorization</label>
+      <select id="authType">
+        <option value="none">なし</option>
+        <option value="basic">Basic</option>
+        <option value="bearer">Bearer</option>
+        <option value="custom">直接入力</option>
+      </select>
+      <p class="muted">Provider 側リソースが HTTP Authorization ヘッダーを要求する場合だけ指定します。未指定の場合は従来通り Authorization ヘッダーを付与しません。</p>
+
+      <div id="basicAuthFields" class="auth-fields" hidden>
+        <label>Basic Username</label><input id="basicUser" placeholder="Username">
+        <label>Basic Password</label><input id="basicPass" type="password" placeholder="Password">
+      </div>
+
+      <div id="bearerAuthFields" class="auth-fields" hidden>
+        <label>Bearer Token</label><input id="bearerToken" placeholder="Bearer token">
+      </div>
+
+      <div id="customAuthFields" class="auth-fields" hidden>
+        <label>Authorization Header Value</label><input id="customAuth" placeholder="Authorization header value">
+      </div>
+
+      <label>Body</label><textarea id="body" placeholder='{"key":"value"}'></textarea>
+      <button onclick="invokeResource()">Invoke</button>
+    </div>
+    <div class="card result-card">
+      <h2>Result</h2>
+      <div id="result" class="result">No result.</div>
+    </div>
+  </div>
+</main>
+<script src="/static/invoke.js"></script>
+</body>
+</html>

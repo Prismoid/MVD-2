@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Minimum Viable Dataspace Console - AuthZ</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/common.js"></script>
+</head>
+<body>
+<script>nav('authz')</script>
+<main>
+  <div class="two-col operation-result">
+    <div class="card">
+      <h2>AuthZ Operation</h2>
+      <label>Current User</label><select id="authz-user"></select>
+      <label>Resource ID</label><input id="resource-id" placeholder="resource-001">
+      <label>Access Grantee ID</label>
+      <input id="grantee-id" list="grantee-candidates" placeholder="userB">
+      <datalist id="grantee-candidates"></datalist>
+      <p class="muted">アクセスを許可する利用者IDを指定します。ローカル鍵に未登録のIDも入力できます。</p>
+      <label>Expired At</label><input id="expired-at" placeholder="2099-12-31T23:59:59Z">
+      <div class="row">
+        <button onclick="addAuthz()">Add</button>
+        <button class="ghost" onclick="updateAuthz()">Update</button>
+        <button class="danger" onclick="deleteAuthz()">Delete</button>
+      </div>
+    </div>
+
+    <div class="card result-card">
+      <h2>Result</h2>
+      <div id="result" class="result">No result.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">
+      <h2>AuthZ Entries</h2>
+      <button class="danger small" onclick="deleteAllAuthz()">Debug: Delete All AuthZ</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Resource ID</th>
+          <th>Access Grantee ID</th>
+          <th>Expired At</th>
+        </tr>
+      </thead>
+      <tbody id="authz-body"></tbody>
+    </table>
+  </div>
+</main>
+<script src="/static/authz.js"></script>
+</body>
+</html>
