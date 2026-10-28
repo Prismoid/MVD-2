@@ -1,3 +1,5 @@
+name: provider-file-server
+
 services:
   nginx:
     image: nginx:alpine

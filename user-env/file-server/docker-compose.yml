@@ -1,3 +1,5 @@
+name: user-file-server
+
 services:
   nginx:
     image: nginx:alpine

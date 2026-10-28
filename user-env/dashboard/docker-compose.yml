@@ -1,3 +1,5 @@
+name: user-dashboard
+
 services:
   mvd-console-db:
     image: postgres:16

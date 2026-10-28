@@ -1,3 +1,5 @@
+name: provider-dashboard
+
 services:
   mvd-console-db:
     image: postgres:16

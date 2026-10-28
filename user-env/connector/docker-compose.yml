@@ -1,3 +1,5 @@
+name: user-connector
+
 services:
   api:
     build: .

@@ -1,3 +1,5 @@
+name: provider-connector
+
 services:
   api:
     build: .
