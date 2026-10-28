@@ -1,0 +1,24 @@
+services:
+  api:
+    build: .
+    ports:
+      - "7650:7650"
+    volumes:
+      - ./certs:/certs:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  gateway:
+    build: .
+    command: python gateway.py
+    ports:
+      - "7653:7653"
+    volumes:
+      - ./certs:/certs:ro
+    environment:
+      PKR_URL: "http://host.docker.internal:7450"
+      BACKEND_URL: "http://api:7650"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - api

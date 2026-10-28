@@ -10,7 +10,7 @@ async function loadAuthz() {
     await loadGranteeCandidates();
     const rows = await api('/api/authz/debug/show_all');
     document.getElementById('authz-body').innerHTML = rows.map(x =>
-      `<tr><td>${esc(x.resource_id || '')}</td><td>${esc(x.access_grantee_id || '')}</td><td>${esc(x.expired_at || '')}</td></tr>`
+      `<tr><td>${esc(x.resource_id || '')}</td><td>${esc(x.access_grantee_id || '')}</td><td>${esc(x.valid_from || '')}</td><td>${esc(x.expired_at || '')}</td></tr>`
     ).join('');
   } catch (e) { showResult(e); }
 }
@@ -20,6 +20,7 @@ function authzPayload() {
     user_id: val('authz-user'),
     resource_id: val('resource-id'),
     access_grantee_id: val('grantee-id'),
+    valid_from: val('valid-from'),
     expired_at: val('expired-at'),
   };
 }

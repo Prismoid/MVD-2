@@ -8,7 +8,11 @@ for dir in \
   user-env/connector \
   user-env/authz \
   user-env/file-server \
-  user-env/user-console
+  user-env/dashboard \
+  provider-env/connector \
+  provider-env/authz \
+  provider-env/file-server \
+  provider-env/dashboard
 do
   (cd "$dir" && docker compose up -d)
 done

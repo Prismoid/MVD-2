@@ -21,9 +21,11 @@
 
       <div class="card">
         <h2>Public Key Registry Operation</h2>
-        <p class="muted">ローカル鍵ユーザを選択し、Connector 経由で Public Key Registry を操作します。</p>
+        <p class="muted">ローカル鍵ユーザを選択し、X.509 証明書 (PEM形式) を貼り付けて PKR に登録します。</p>
         <label>Local User</label>
         <select id="pkr-user"></select>
+        <label>X.509 Certificate (PEM)</label>
+        <textarea id="pkr-certificate" rows="8" placeholder="-----BEGIN CERTIFICATE-----&#10;...&#10;-----END CERTIFICATE-----" style="width:100%;box-sizing:border-box;font-family:monospace;"></textarea>
         <div class="row">
           <button onclick="registerPkr()">Register</button>
           <button class="ghost" onclick="updatePkr()">Update Private Key</button>
@@ -60,12 +62,12 @@
       <div class="section-title">
         <h2>Public Key Registry DB</h2>
       </div>
-      <p class="muted table-card-help">この Console の Local Keys と User ID / Public Key が一致する公開鍵だけを表示します。</p>
+      <p class="muted table-card-help">この Console の Local Keys と User ID / Public Key が一致する登録だけを表示します。</p>
       <div class="table-tools">
         <input id="pkr-search" placeholder="Search Local PKR Entries">
       </div>
       <table>
-        <thead><tr><th>User ID</th><th>Public Key</th><th>Registered At</th></tr></thead>
+        <thead><tr><th>User ID</th><th>Public Key</th><th>X.509 Certificate</th><th>Registered At</th></tr></thead>
         <tbody id="pkr-body"></tbody>
       </table>
       <div id="pkr-pager" class="pager"></div>

@@ -3,7 +3,7 @@ services:
     build: .
     container_name: mvd-browser
     ports:
-      - "7650:7650"
+      - "7452:7452"
     environment:
       PKR_URL: "http://host.docker.internal:7450"
       CAT_URL: "http://host.docker.internal:7451"

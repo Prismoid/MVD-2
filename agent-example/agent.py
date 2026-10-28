@@ -10,12 +10,13 @@ OLLAMA_URL = "http://gpu.wg.internal:11434/api/chat"
 MODEL = "qwen3.8:27b" # "qwen3:14b"
 CONNECTOR_MCP = "http://localhost:7550/invoke_resource"
 RESOURCE_ID = "mcp-server"
-USER_ID = "userB"
+USER_ID = "user"
+
 
 PRIVATE_KEY = b"""-----BEGIN EC PRIVATE KEY-----
-MHcCAQEEIPGDOSE243K+HYxR3v90wTtxuL4RCCXnWyxuZBCNVWWSoAoGCCqGSM49
-AwEHoUQDQgAE1jieijJUvH/VvlwfWfiXRTOzl6Olj1njD1Ou2ja9YlpZOEFuLm5+
-QNzA2vEEMCk29ZMb40agwHauarV/Y8rOmQ==
+MHcCAQEEINqYxhjDxzVZv0AFFMAfvHC8iKpXmbckDATOMZuz/9K1oAoGCCqGSM49
+AwEHoUQDQgAEz86DFhgDHZoLF/i4EZI9usUZR257wVqeoEsm9YIafEBeNQ0r5zxF
+WpCJLab/1JIEsTpz+1Ml1oY3iqwkJ1IAwQ==
 -----END EC PRIVATE KEY-----
 """
 

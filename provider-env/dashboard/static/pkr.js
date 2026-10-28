@@ -31,6 +31,7 @@ async function loadPkrDb() {
     columns: [
       { key: 'user_id' },
       { render: row => `<pre class="inline-key">${esc(row.public_key || '')}</pre>` },
+      { render: row => `<pre class="inline-key">${esc(row.certificate || '')}</pre>` },
       { key: 'registered_at' },
     ],
   });
@@ -52,7 +53,7 @@ async function registerPkr() {
   try {
     showResult(await api('/api/console/pkr/register', {
       method: 'POST',
-      body: JSON.stringify({ user_id: val('pkr-user') }),
+      body: JSON.stringify({ user_id: val('pkr-user'), certificate: val('pkr-certificate') }),
     }));
     await loadPkrDb();
   } catch (e) { showResult(e); }
@@ -62,7 +63,7 @@ async function updatePkr() {
   try {
     showResult(await api('/api/console/pkr/update', {
       method: 'POST',
-      body: JSON.stringify({ user_id: val('pkr-user') }),
+      body: JSON.stringify({ user_id: val('pkr-user'), certificate: val('pkr-certificate') }),
     }));
     await loadLocalKeysForTable();
     await loadLocalKeys('pkr-user');

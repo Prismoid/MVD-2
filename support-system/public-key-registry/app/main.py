@@ -118,14 +118,14 @@ def upd_key(req: UpdKeyReq):
 
     validate_expire(req.expire_time)
 
-    if not verify_signature(key.public_key, data, req.signature):
-        raise HTTPException(400, "invalid signature")
-
     db = SessionLocal()
     key = db.query(RegisteredPublicKey).filter_by(user_id=req.user_id).first()
     if not key:
         db.close()
         raise HTTPException(404, "not found")
+
+    if not verify_signature(key.public_key, data, req.signature):
+        raise HTTPException(400, "invalid signature")
 
     key.public_key = req.new_public_key
     key.certificate = req.new_certificate

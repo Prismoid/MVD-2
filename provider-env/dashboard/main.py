@@ -4,6 +4,7 @@ import json
 import os
 import time
 from datetime import datetime, timedelta, timezone
+from sqlalchemy import text
 from typing import Any, Optional
 
 import httpx
@@ -15,7 +16,7 @@ from pydantic import BaseModel
 from sqlalchemy import Column, DateTime, String, create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-CONNECTOR_URL = os.getenv("CONNECTOR_URL", "http://localhost:7550")
+CONNECTOR_URL = os.getenv("CONNECTOR_URL", "http://localhost:7650")
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:7462/mvd_console")
 
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
@@ -29,6 +30,7 @@ class LocalKey(Base):
     user_id = Column(String, primary_key=True)
     private_key = Column(String, nullable=False)
     public_key = Column(String, nullable=False)
+    certificate = Column(String, nullable=True)
     registered_at = Column(DateTime, nullable=False)
 
 
@@ -38,6 +40,7 @@ class UserReq(BaseModel):
 
 class PkrUserReq(BaseModel):
     user_id: str
+    certificate: Optional[str] = None
 
 
 class FcEntryReq(BaseModel):
@@ -56,6 +59,7 @@ class AuthzReq(BaseModel):
     user_id: str
     resource_id: str
     access_grantee_id: str
+    valid_from: str
     expired_at: str
 
 
@@ -88,10 +92,14 @@ def on_startup():
     for _ in range(20):
         try:
             Base.metadata.create_all(bind=engine)
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE local_keys ADD COLUMN IF NOT EXISTS certificate TEXT"))
             return
         except Exception:
             time.sleep(1)
     Base.metadata.create_all(bind=engine)
+    with engine.begin() as conn:
+        conn.execute(text("ALTER TABLE local_keys ADD COLUMN IF NOT EXISTS certificate TEXT"))
 
 
 def iso_now_plus(minutes: int = 5) -> str:
@@ -115,6 +123,7 @@ def key_to_dict(k: LocalKey):
         "user_id": k.user_id,
         "private_key": k.private_key,
         "public_key": k.public_key,
+        "certificate": k.certificate,
         "registered_at": k.registered_at.isoformat(),
     }
 
@@ -339,9 +348,16 @@ async def console_pkr_register(req: PkrUserReq):
     db = SessionLocal()
     try:
         key = get_local_key_or_400(db, req.user_id)
-        payload = {"user_id": key.user_id, "public_key": key.public_key, "expire_time": iso_now_plus()}
+        certificate = (req.certificate or "").strip()
+        if not certificate:
+            raise HTTPException(400, "X.509 certificate (PEM) is required")
+        payload = {"user_id": key.user_id, "public_key": key.public_key, "certificate": certificate, "expire_time": iso_now_plus()}
         payload["signature"] = sign_payload(key.private_key, payload)
-        return await connector_response("POST", "/pkr/add", json_body=payload)
+        result = await connector_response("POST", "/pkr/add", json_body=payload)
+        if 200 <= result.status_code < 300:
+            key.certificate = certificate
+            db.commit()
+        return result
     finally:
         db.close()
 
@@ -352,11 +368,15 @@ async def console_pkr_update(req: PkrUserReq):
     try:
         old_key = get_local_key_or_400(db, req.user_id)
         new_private_key, new_public_key = new_key_pair()
-        payload = {"user_id": req.user_id, "new_public_key": new_public_key, "expire_time": iso_now_plus()}
+        new_certificate = (req.certificate or "").strip()
+        if not new_certificate:
+            raise HTTPException(400, "X.509 certificate (PEM) is required")
+        payload = {"user_id": req.user_id, "new_public_key": new_public_key, "new_certificate": new_certificate, "expire_time": iso_now_plus()}
         payload["signature"] = sign_payload(old_key.private_key, payload)
         res = await connector_json("POST", "/pkr/upd", json_body=payload)
         old_key.private_key = new_private_key
         old_key.public_key = new_public_key
+        old_key.certificate = new_certificate
         old_key.registered_at = datetime.now(timezone.utc)
         db.commit()
         return res
@@ -475,6 +495,7 @@ async def console_authz_add(req: AuthzReq):
         payload = {
             "resource_id": req.resource_id,
             "access_grantee_id": req.access_grantee_id,
+            "valid_from": req.valid_from,
             "expired_at": req.expired_at,
             "expire_time": iso_now_plus(),
         }
@@ -492,6 +513,7 @@ async def console_authz_update(req: AuthzReq):
         payload = {
             "resource_id": req.resource_id,
             "access_grantee_id": req.access_grantee_id,
+            "valid_from": req.valid_from,
             "expired_at": req.expired_at,
             "expire_time": iso_now_plus(),
         }

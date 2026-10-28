@@ -18,6 +18,7 @@
       <input id="grantee-id" list="grantee-candidates" placeholder="userB">
       <datalist id="grantee-candidates"></datalist>
       <p class="muted">アクセスを許可する利用者IDを指定します。ローカル鍵に未登録のIDも入力できます。</p>
+      <label>Valid From</label><input id="valid-from" placeholder="2026-10-27T00:00:00Z">
       <label>Expired At</label><input id="expired-at" placeholder="2099-12-31T23:59:59Z">
       <div class="row">
         <button onclick="addAuthz()">Add</button>
@@ -42,6 +43,7 @@
         <tr>
           <th>Resource ID</th>
           <th>Access Grantee ID</th>
+          <th>Valid From</th>
           <th>Expired At</th>
         </tr>
       </thead>
